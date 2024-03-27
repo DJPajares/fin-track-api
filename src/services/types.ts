@@ -7,8 +7,39 @@ const createType = async (data: TypeProps) => {
     return TypeModel.create(data);
   } catch (error) {
     console.error(error);
-    throw new Error('Could not create type');
+    throw new Error('Could not create');
   }
 };
 
-export { createType };
+const getType = async (req: Request) => {
+  try {
+    return TypeModel.find({});
+  } catch (error) {
+    console.error(error);
+    throw new Error('Could not get');
+  }
+};
+
+const updateType = async (data: TypeProps) => {
+  try {
+    const { _id, name } = data;
+
+    return TypeModel.updateOne({ _id }, { name });
+  } catch (error) {
+    console.error(error);
+    throw new Error('Could not update');
+  }
+};
+
+const deleteType = async (data: TypeProps) => {
+  try {
+    const { _id } = data;
+
+    return TypeModel.deleteOne({ _id });
+  } catch (error) {
+    console.error(error);
+    throw new Error('Could not delete');
+  }
+};
+
+export { createType, getType, updateType, deleteType };
