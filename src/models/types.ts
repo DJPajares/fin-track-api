@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import { model, Schema } from 'mongoose';
 
 const typeSchema = new Schema({
   name: { type: String, required: true }
@@ -6,7 +6,4 @@ const typeSchema = new Schema({
 
 const TypeModel = model('Type', typeSchema);
 
-export {
-  typeSchema,
-  TypeModel
-}
+export { typeSchema, TypeModel };
