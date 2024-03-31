@@ -1,5 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+import router from './routes';
 
 dotenv.config();
 
@@ -10,9 +12,12 @@ const databaseUrl = process.env.DATABASE_URL || 'mongodb://127.0.0.1/database';
 
 // Middleware
 app.use(express.json());
+app.use(router);
 
 const start = async () => {
   try {
+    await mongoose.connect(databaseUrl);
+
     app.listen(port, () => {
       console.log(`[server]: Server is running at http://localhost:${port}`);
     });
