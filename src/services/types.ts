@@ -4,7 +4,7 @@ import { Request } from 'express';
 
 const createType = async (data: TypeProps) => {
   try {
-    return TypeModel.create(data);
+    return await TypeModel.create(data);
   } catch (error) {
     console.error(error);
     throw new Error('Could not create');
@@ -13,7 +13,7 @@ const createType = async (data: TypeProps) => {
 
 const getType = async (req: Request) => {
   try {
-    return TypeModel.find({});
+    return await TypeModel.find({});
   } catch (error) {
     console.error(error);
     throw new Error('Could not get');
@@ -24,7 +24,7 @@ const updateType = async (data: TypeProps) => {
   try {
     const { _id, name } = data;
 
-    return TypeModel.updateOne({ _id }, { name });
+    return await TypeModel.updateOne({ _id }, { name });
   } catch (error) {
     console.error(error);
     throw new Error('Could not update');
@@ -35,7 +35,7 @@ const deleteType = async (data: TypeProps) => {
   try {
     const { _id } = data;
 
-    return TypeModel.deleteOne({ _id });
+    return await TypeModel.deleteOne({ _id });
   } catch (error) {
     console.error(error);
     throw new Error('Could not delete');
