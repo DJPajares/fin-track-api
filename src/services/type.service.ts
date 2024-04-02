@@ -1,45 +1,32 @@
-import { Request } from 'express';
 import { TypeModel } from '../models/type.model';
 import type { TypeProps } from '../models/type.model';
 
-const createType = async (data: TypeProps) => {
-  try {
-    return await TypeModel.create(data);
-  } catch (error) {
-    console.error(error);
-    throw new Error('Could not create');
-  }
+const create = async (data: TypeProps) => {
+  return await TypeModel.create(data);
 };
 
-const getType = async (req: Request) => {
-  try {
-    return await TypeModel.find({});
-  } catch (error) {
-    console.error(error);
-    throw new Error('Could not get');
-  }
+const getAll = async () => {
+  return await TypeModel.find();
 };
 
-const updateType = async (data: TypeProps) => {
-  try {
-    const { _id, name } = data;
-
-    return await TypeModel.updateOne({ _id }, { name });
-  } catch (error) {
-    console.error(error);
-    throw new Error('Could not update');
-  }
+const get = async ({ _id }: Partial<TypeProps>) => {
+  return await TypeModel.findOne({ _id });
 };
 
-const deleteType = async (data: TypeProps) => {
-  try {
-    const { _id } = data;
-
-    return await TypeModel.deleteOne({ _id });
-  } catch (error) {
-    console.error(error);
-    throw new Error('Could not delete');
-  }
+const update = async ({
+  _id,
+  data
+}: {
+  _id: TypeProps['_id'];
+  data: TypeProps;
+}) => {
+  return await TypeModel.updateOne({ _id }, data);
+  // return await TypeModel.findOneAndUpdate({ _id }, data);
 };
 
-export { createType, getType, updateType, deleteType };
+const remove = async ({ _id }: Partial<TypeProps>) => {
+  return await TypeModel.deleteOne({ _id });
+  // return await TypeModel.findByIdAndDelete(id);
+};
+
+export { create, getAll, get, update, remove };
