@@ -1,4 +1,4 @@
-import { model, Schema, HydratedDocument, InferSchemaType } from 'mongoose';
+import { HydratedDocument, InferSchemaType, Schema, model } from 'mongoose';
 
 const typeSchema = new Schema({
   name: { type: String, required: true }
