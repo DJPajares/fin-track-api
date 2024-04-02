@@ -5,11 +5,11 @@ const create = async (data: CategoryProps) => {
 };
 
 const getAll = async () => {
-  return await CategoryModel.find();
+  return await CategoryModel.find().populate('type');
 };
 
 const get = async (_id: CategoryProps['_id']) => {
-  return await CategoryModel.findOne({ _id });
+  return await CategoryModel.findOne({ _id }).populate('type');
 };
 
 const update = async (_id: CategoryProps['_id'], data: CategoryProps) => {
