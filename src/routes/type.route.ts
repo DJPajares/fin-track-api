@@ -1,63 +1,16 @@
 import express from 'express';
-import {
-  createType,
-  getType,
-  updateType,
-  deleteType
-} from '../services/type.service';
+import * as typeControllers from '../controllers/type.controller';
 
 const router = express.Router();
 
-router.post('/', async (req, res, next) => {
-  try {
-    const data = await createType(req.body);
+router.post('/', typeControllers.create);
 
-    res.status(200).send({
-      success: true,
-      data
-    });
-  } catch (error) {
-    next(error);
-  }
-});
+router.get('/', typeControllers.getAll);
 
-router.get('/', async (req, res, next) => {
-  try {
-    const data = await getType(req);
+router.get('/:id', typeControllers.get);
 
-    res.status(200).send({
-      success: true,
-      data
-    });
-  } catch (error) {
-    next(error);
-  }
-});
+router.put('/:id', typeControllers.update);
 
-router.put('/', async (req, res, next) => {
-  try {
-    const data = await updateType(req.body);
-
-    res.status(200).send({
-      success: true,
-      data
-    });
-  } catch (error) {
-    next(error);
-  }
-});
-
-router.delete('/', async (req, res, next) => {
-  try {
-    var data = await deleteType(req.body);
-
-    res.status(200).send({
-      success: true,
-      data
-    });
-  } catch (error) {
-    next(error);
-  }
-});
+router.delete('/:id', typeControllers.remove);
 
 export default router;
