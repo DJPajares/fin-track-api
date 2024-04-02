@@ -1,6 +1,6 @@
-import { TypeModel } from '../models/types';
-import type { TypeProps } from '../interfaces/types';
 import { Request } from 'express';
+import { TypeModel } from '../models/type.model';
+import type { TypeProps } from '../models/type.model';
 
 const createType = async (data: TypeProps) => {
   try {

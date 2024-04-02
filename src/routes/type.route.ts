@@ -4,7 +4,7 @@ import {
   getType,
   updateType,
   deleteType
-} from '../../services/types';
+} from '../services/type.service';
 
 const router = express.Router();
 
