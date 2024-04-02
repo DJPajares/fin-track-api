@@ -30,7 +30,7 @@ const get = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const _id = new Types.ObjectId(req.params.id);
 
-    res.json(await typeService.get({ _id }));
+    res.json(await typeService.get(_id));
   } catch (error) {
     console.error(`Error getting the type`, error);
     next(error);
@@ -42,7 +42,7 @@ const update = async (req: Request, res: Response, next: NextFunction) => {
     const _id = new Types.ObjectId(req.params.id);
     const data = req.body;
 
-    res.json(await typeService.update({ _id, data }));
+    res.json(await typeService.update(_id, data));
   } catch (error) {
     console.error(`Error updating the type`, error);
     next(error);
@@ -53,7 +53,7 @@ const remove = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const _id = new Types.ObjectId(req.params.id);
 
-    res.json(await typeService.remove({ _id }));
+    res.json(await typeService.remove(_id));
   } catch (error) {
     console.error(`Error removing the type`, error);
     next(error);

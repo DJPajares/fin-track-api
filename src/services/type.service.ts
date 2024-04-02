@@ -9,22 +9,16 @@ const getAll = async () => {
   return await TypeModel.find();
 };
 
-const get = async ({ _id }: Partial<TypeProps>) => {
+const get = async ({ _id }: TypeProps['_id']) => {
   return await TypeModel.findOne({ _id });
 };
 
-const update = async ({
-  _id,
-  data
-}: {
-  _id: TypeProps['_id'];
-  data: TypeProps;
-}) => {
+const update = async (_id: TypeProps['_id'], data: TypeProps) => {
   return await TypeModel.updateOne({ _id }, data);
   // return await TypeModel.findOneAndUpdate({ _id }, data);
 };
 
-const remove = async ({ _id }: Partial<TypeProps>) => {
+const remove = async (_id: TypeProps['_id']) => {
   return await TypeModel.deleteOne({ _id });
   // return await TypeModel.findByIdAndDelete(id);
 };
