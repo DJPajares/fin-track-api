@@ -5,7 +5,8 @@ const typeSchema = new Schema(
   {
     name: {
       type: String,
-      required: [true, CONSTANTS.validations.type.name.required]
+      required: [true, CONSTANTS.validations.type.name.required],
+      unique: [true, CONSTANTS.validations.type.name.unique]
     }
   },
   { timestamps: true }

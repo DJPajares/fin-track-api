@@ -2,12 +2,14 @@ const constants = {
   validations: {
     category: {
       name: {
-        required: 'Category name is required'
+        required: 'Name is required',
+        unique: 'Name must be unique'
       }
     },
     type: {
       name: {
-        required: 'Type name is required'
+        required: 'Name is required',
+        unique: 'Name must be unique'
       }
     }
   }
