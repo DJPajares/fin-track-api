@@ -5,7 +5,7 @@ import {
   Types,
   model
 } from 'mongoose';
-import CONSTANTS from '../utilities/constants';
+import CONSTANTS from '../../utilities/constants';
 
 const categorySchema = new Schema(
   {

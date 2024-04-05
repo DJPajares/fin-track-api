@@ -1,5 +1,5 @@
-import { TypeModel } from '../models/type.model';
-import type { TypeProps } from '../models/type.model';
+import { TypeModel } from '../../models/v1/type.model';
+import type { TypeProps } from '../../models/v1/type.model';
 
 const create = async (data: TypeProps) => {
   return await TypeModel.create(data);

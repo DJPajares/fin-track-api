@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import * as typeService from '../services/type.service';
+import * as typeService from '../../services/v1/type.service';
 import { Types } from 'mongoose';
 
 const create = async (req: Request, res: Response, next: NextFunction) => {

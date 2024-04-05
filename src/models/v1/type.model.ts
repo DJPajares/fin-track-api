@@ -1,5 +1,5 @@
 import { HydratedDocument, InferSchemaType, Schema, model } from 'mongoose';
-import CONSTANTS from '../utilities/constants';
+import CONSTANTS from '../../utilities/constants';
 
 const typeSchema = new Schema(
   {

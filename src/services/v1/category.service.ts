@@ -1,4 +1,4 @@
-import { CategoryModel, CategoryProps } from '../models/category.model';
+import { CategoryModel, CategoryProps } from '../../models/v1/category.model';
 
 const create = async (data: CategoryProps) => {
   return await CategoryModel.create(data);

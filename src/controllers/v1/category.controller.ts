@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import * as categoryService from '../services/category.service';
+import * as categoryService from '../../services/v1/category.service';
 import { Types } from 'mongoose';
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
