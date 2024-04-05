@@ -1,21 +1,21 @@
 import { TypeModel } from '../../models/v1/typeModel';
 import type { TypeProps } from '../../models/v1/typeModel';
 
-const create = async (data: TypeProps) => {
-  return await TypeModel.create(data);
+const create = async (values: TypeProps) => {
+  return await TypeModel.create(values);
 };
 
-const getAll = async () => {
-  return await TypeModel.find();
+const getAll = async (skip: number, limit: number) => {
+  return await TypeModel.find().skip(skip).limit(limit);
 };
 
-const get = async ({ _id }: TypeProps['_id']) => {
+const get = async (_id: TypeProps['_id']) => {
   return await TypeModel.findOne({ _id });
 };
 
-const update = async (_id: TypeProps['_id'], data: TypeProps) => {
-  return await TypeModel.updateOne({ _id }, data);
-  // return await TypeModel.findOneAndUpdate({ _id }, data);
+const update = async (_id: TypeProps['_id'], values: TypeProps) => {
+  return await TypeModel.updateOne({ _id }, values);
+  // return await TypeModel.findOneAndUpdate({ _id }, values);
 };
 
 const remove = async (_id: TypeProps['_id']) => {
