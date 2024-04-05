@@ -1,51 +1,59 @@
+# BASIC API WITH EXPRESS AND MONGOOSE
 
-# BASIC API USING EXPRESS AND MONGOOSE
-
-This is a basic API app to showcase api designing skills using express and mongoose.
+a basic API app to showcase api designing skills using express and mongoose.
 
 ## Features
 
 - typescript
 - basic CRUD
 - mongoose
-    - models
-    - schemas
-    - interfaces
+  - models
+  - schemas
+  - interfaces
 - rest API best practices
-    - error handling
-    - zod validation
-    - folder structuring
-        - services, routes, etc.
-    - naming convention
+  - global error handling
+  - middleware
+  - mongoose validation
+  - folder structuring
+    - services, routes, etc.
+  - handling versioning
+  - naming convention
 - bonus:
-    - project-specific vscode settings
-## Installation
+  - project-specific vscode settings
+
+## Requirements
 
 - node v21 or later
-- install mongoDB compass (or mongo atlas)
+- mongoDB compass (or mongo atlas)
   - https://www.mongodb.com/docs/manual/administration/install-community/
-- postman
+- postman or curl
+
 ## Run Locally
 
 - clone the project
+
   ```bash
     git clone https://github.com/DJPajares/fin-track-api.git
   ```
 
 - go to the project directory
+
   ```bash
     cd fin-track-api
   ```
 
 - install dependencies
+
   ```bash
     npm i
   ```
 
 - add `.env` file
+
   ```bash
     touch .env
   ```
+
   - add below based on your mongodb config
     ```bash
       PORT=3001
@@ -53,24 +61,30 @@ This is a basic API app to showcase api designing skills using express and mongo
     ```
 
 - run the server
+
 ```bash
   npm start
 ```
 
 - run api on postman
+
 ## API Reference
 
 #### Get item
 
 ```http
-  GET /api/types/${id}
+  GET /api/v1/types/${id}
 ```
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
 | `id`      | `string` | **Required**. Id of item to fetch |
 
-#### add(num1, num2)
+Sample response:
 
-Takes two numbers and returns the sum.
-
+```http
+  {
+    _id: '6123as235c',
+    name: 'Income'
+  }
+```
