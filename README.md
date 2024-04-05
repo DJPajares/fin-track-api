@@ -1,23 +1,24 @@
-# BASIC API WITH EXPRESS AND MONGOOSE
+# REST API WITH EXPRESS AND MONGOOSE
 
-a basic API app to showcase api designing skills using express and mongoose.
+a restful api app to showcase designing skills using express and mongoose.
 
 ## Features
 
 - typescript
-- basic CRUD
+- basic crud
 - mongoose
   - models
   - schemas
   - interfaces
-- rest API best practices
+  - validation
+- restful api best practices
   - global error handling
   - middleware
-  - mongoose validation
   - folder structuring
     - services, routes, etc.
   - handling versioning
   - naming convention
+  - pagination, filtering and sorting
 - bonus:
   - project-specific vscode settings
 
@@ -82,7 +83,7 @@ a basic API app to showcase api designing skills using express and mongoose.
 
 Sample response:
 
-```http
+```bash
   {
     _id: '6123as235c',
     name: 'Income'
