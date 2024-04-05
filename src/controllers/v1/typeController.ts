@@ -1,10 +1,10 @@
-import { NextFunction, Request, Response } from 'express';
-import * as categoryService from '../../services/v1/category.service';
+import { Request, Response, NextFunction } from 'express';
+import * as typeService from '../../services/v1/typeService';
 import { Types } from 'mongoose';
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    res.json(await categoryService.create(req.body));
+    res.json(await typeService.create(req.body));
   } catch (error) {
     next(error);
   }
@@ -12,7 +12,7 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
 
 const getAll = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    res.json(await categoryService.getAll());
+    res.json(await typeService.getAll());
   } catch (error) {
     next(error);
   }
@@ -20,9 +20,9 @@ const getAll = async (req: Request, res: Response, next: NextFunction) => {
 
 const get = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const id = new Types.ObjectId(req.params.id);
+    const _id = new Types.ObjectId(req.params.id);
 
-    res.json(await categoryService.get(id));
+    res.json(await typeService.get(_id));
   } catch (error) {
     next(error);
   }
@@ -30,10 +30,10 @@ const get = async (req: Request, res: Response, next: NextFunction) => {
 
 const update = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const id = new Types.ObjectId(req.params.id);
+    const _id = new Types.ObjectId(req.params.id);
     const data = req.body;
 
-    res.json(await categoryService.update(id, data));
+    res.json(await typeService.update(_id, data));
   } catch (error) {
     next(error);
   }
@@ -41,9 +41,9 @@ const update = async (req: Request, res: Response, next: NextFunction) => {
 
 const remove = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const id = new Types.ObjectId(req.params.id);
+    const _id = new Types.ObjectId(req.params.id);
 
-    res.json(await categoryService.remove(id));
+    res.json(await typeService.remove(_id));
   } catch (error) {
     next(error);
   }

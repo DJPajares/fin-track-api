@@ -1,10 +1,10 @@
 import express from 'express';
-import typesRoutes from './v1/type.route';
-import categoryRoutes from './v1/category.route';
+import typesRoute from './v1/typeRoute';
+import categoryRoute from './v1/categoryRoute';
 
 const router = express.Router();
 
-router.use('/api/v1/types', typesRoutes);
-router.use('/api/v1/categories', categoryRoutes);
+router.use('/api/v1/types', typesRoute);
+router.use('/api/v1/categories', categoryRoute);
 
 export default router;
