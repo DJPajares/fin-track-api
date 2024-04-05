@@ -1,10 +1,8 @@
 import { Request } from 'express';
 
-type PaginationRequestProps = Request & {
-  paginationQuery?: {
-    skip: number;
-    limit: number;
-  };
+type PaginationProps = Request & {
+  page: string;
+  limit: string;
 };
 
-export { PaginationRequestProps };
+export { PaginationProps };

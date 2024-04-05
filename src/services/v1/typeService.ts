@@ -1,12 +1,24 @@
 import { TypeModel } from '../../models/v1/typeModel';
 import type { TypeProps } from '../../models/v1/typeModel';
+import { PaginationProps } from '../../types/commonTypes';
+import pagination from '../../utilities/pagination';
 
 const create = async (data: TypeProps) => {
   return await TypeModel.create(data);
 };
 
-const getAll = async (skip: number, limit: number) => {
-  return await TypeModel.find().skip(skip).limit(limit);
+const getAll = async (query: PaginationProps) => {
+  const totalCollection = await TypeModel.countDocuments();
+  const result = pagination(query, totalCollection);
+
+  const { skip, limit, metadata } = result;
+
+  const data = await TypeModel.find().skip(skip).limit(limit);
+
+  return {
+    data,
+    pagination: metadata
+  };
 };
 
 const get = async (_id: TypeProps['_id']) => {

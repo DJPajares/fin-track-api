@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import * as typeService from '../../services/v1/typeService';
 import { Types } from 'mongoose';
-import { PaginationRequestProps } from '../../types/commonTypes';
+import { PaginationProps } from '../../types/commonTypes';
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -16,24 +16,15 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const getAll = async (
-  req: PaginationRequestProps,
-  res: Response,
-  next: NextFunction
-) => {
+const getAll = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    if (req.paginationQuery) {
-      const { skip, limit } = req.paginationQuery;
-      const data = await typeService.getAll(skip, limit);
+    const query = req.query as unknown as PaginationProps;
+    const result = await typeService.getAll(query);
 
-      res.status(200).json({
-        success: true,
-        data,
-        ...res.locals.pagination
-      });
-    } else {
-      throw new Error('Pagination query is not available');
-    }
+    res.status(200).json({
+      success: true,
+      ...result
+    });
   } catch (error) {
     next(error);
   }
