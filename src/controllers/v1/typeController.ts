@@ -19,6 +19,7 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
 const getAll = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const query = req.query as unknown as PaginationProps;
+
     const result = await typeService.getAll(query);
 
     res.status(200).json({

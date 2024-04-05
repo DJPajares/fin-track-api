@@ -1,11 +1,25 @@
 import { CategoryModel, CategoryProps } from '../../models/v1/categoryModel';
+import { PaginationProps } from '../../types/commonTypes';
+import createPagination from '../../utilities/createPagination';
 
 const create = async (data: CategoryProps) => {
   return await CategoryModel.create(data);
 };
 
-const getAll = async () => {
-  return await CategoryModel.find().populate('type');
+const getAll = async (query: PaginationProps) => {
+  const totalDocuments = await CategoryModel.countDocuments();
+  const paginationResult = createPagination(query, totalDocuments);
+  const { skip, limit, pagination } = paginationResult;
+
+  const data = await CategoryModel.find()
+    .populate('type')
+    .skip(skip)
+    .limit(limit);
+
+  return {
+    data,
+    pagination
+  };
 };
 
 const get = async (_id: CategoryProps['_id']) => {
