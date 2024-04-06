@@ -8,9 +8,7 @@ const currencySchema = new Schema(
       required: [true, constants.validations.common.name.required],
       unique: [true, constants.validations.common.name.unique]
     },
-    description: {
-      type: String
-    }
+    description: String
   },
   { timestamps: true }
 );

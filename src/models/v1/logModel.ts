@@ -6,7 +6,7 @@ const logSchema = new Schema(
     category: { type: Schema.Types.ObjectId, ref: 'Category' },
     currency: { type: Schema.Types.ObjectId, ref: 'Currency' },
     amount: { type: Schema.Types.Decimal128, default: 0 },
-    date: { type: Date }
+    date: Date
   },
   {
     timestamps: true
