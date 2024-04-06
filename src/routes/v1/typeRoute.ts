@@ -1,16 +1,22 @@
 import express from 'express';
-import * as typeControllers from '../../controllers/v1/typeController';
+import {
+  create,
+  getAll,
+  get,
+  update,
+  remove
+} from '../../controllers/v1/typeController';
 
 const router = express.Router();
 
-router.post('/', typeControllers.create);
+router.post('/', create);
 
-router.get('/', typeControllers.getAll);
+router.get('/', getAll);
 
-router.get('/:id', typeControllers.get);
+router.get('/:id', get);
 
-router.put('/:id', typeControllers.update);
+router.put('/:id', update);
 
-router.delete('/:id', typeControllers.remove);
+router.delete('/:id', remove);
 
 export default router;
