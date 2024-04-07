@@ -1,12 +1,13 @@
 import { HydratedDocument, InferSchemaType, Schema, model } from 'mongoose';
 
-const recurringLogSchema = new Schema(
+const transactionSchema = new Schema(
   {
     name: { type: String, required: true },
     category: { type: Schema.Types.ObjectId, ref: 'Category' },
     currency: { type: Schema.Types.ObjectId, ref: 'Currency' },
     amount: { type: Schema.Types.Decimal128, default: 0 },
     description: String,
+    recurring: Boolean,
     startDate: Date,
     endDate: Date,
     excludedDates: [Date]
@@ -16,10 +17,10 @@ const recurringLogSchema = new Schema(
   }
 );
 
-const RecurringLogModel = model('RecurringLog', recurringLogSchema);
+const TransactionModel = model('Transaction', transactionSchema);
 
-type RecurringLogProps = HydratedDocument<
-  InferSchemaType<typeof recurringLogSchema>
+type TransactionProps = HydratedDocument<
+  InferSchemaType<typeof transactionSchema>
 >;
 
-export { RecurringLogModel, RecurringLogProps };
+export { TransactionModel, TransactionProps };

@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
-import * as recurringService from '../../services/v1/recurringLogService';
+import * as transactionService from '../../services/v1/transactionService';
 import { PaginationProps } from '../../types/commonTypes';
 import { Types } from 'mongoose';
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
-  const data = await recurringService.create(req.body);
+  const data = await transactionService.create(req.body);
 
   res.status(200).json({
     success: true,
@@ -15,7 +15,7 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
 const getAll = async (req: Request, res: Response, next: NextFunction) => {
   const query = req.query as unknown as PaginationProps;
 
-  const result = await recurringService.getAll(query);
+  const result = await transactionService.getAll(query);
 
   res.status(200).json({
     success: true,
@@ -26,7 +26,7 @@ const getAll = async (req: Request, res: Response, next: NextFunction) => {
 const get = async (req: Request, res: Response, next: NextFunction) => {
   const id = new Types.ObjectId(req.params.id);
 
-  const data = await recurringService.get(id);
+  const data = await transactionService.get(id);
 
   res.status(200).json({
     success: true,
@@ -37,7 +37,7 @@ const get = async (req: Request, res: Response, next: NextFunction) => {
 const update = async (req: Request, res: Response, next: NextFunction) => {
   const id = new Types.ObjectId(req.params.id);
 
-  const data = await recurringService.update(id, req.body);
+  const data = await transactionService.update(id, req.body);
 
   res.status(200).json({
     success: true,
@@ -48,7 +48,7 @@ const update = async (req: Request, res: Response, next: NextFunction) => {
 const remove = async (req: Request, res: Response, next: NextFunction) => {
   const id = new Types.ObjectId(req.params.id);
 
-  const data = recurringService.remove(id);
+  const data = transactionService.remove(id);
 
   res.status(200).json({
     success: true,

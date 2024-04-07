@@ -5,7 +5,7 @@ import {
   get,
   update,
   remove
-} from '../../controllers/v1/recurringLogController';
+} from '../../controllers/v1/transactionController';
 
 const router = express.Router();
 
