@@ -8,7 +8,9 @@ const paymentSchema = new Schema(
       required: true
     },
     amount: { type: Schema.Types.Decimal128, default: 0 },
-    date: Date
+    date: Date,
+    settled: Boolean,
+    remainingAmount: Schema.Types.Decimal128
   },
   {
     timestamps: true
