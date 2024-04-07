@@ -27,7 +27,7 @@ const get = async (_id: CategoryProps['_id']) => {
 };
 
 const update = async (_id: CategoryProps['_id'], data: CategoryProps) => {
-  return await CategoryModel.updateOne({ _id }, data);
+  return await CategoryModel.findOneAndUpdate({ _id }, data, { new: true });
 };
 
 const remove = async (_id: CategoryProps['_id']) => {

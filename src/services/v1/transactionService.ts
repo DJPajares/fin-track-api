@@ -31,7 +31,7 @@ const get = async (_id: TransactionProps['_id']) => {
 };
 
 const update = async (_id: TransactionProps['_id'], data: TransactionProps) => {
-  return await TransactionModel.updateOne({ _id }, data);
+  return await TransactionModel.findOneAndUpdate({ _id }, data, { new: true });
 };
 
 const remove = async (_id: TransactionProps['_id']) => {

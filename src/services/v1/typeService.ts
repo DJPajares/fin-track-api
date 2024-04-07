@@ -25,8 +25,7 @@ const get = async (_id: TypeProps['_id']) => {
 };
 
 const update = async (_id: TypeProps['_id'], data: TypeProps) => {
-  return await TypeModel.updateOne({ _id }, data);
-  // return await TypeModel.findOneAndUpdate({ _id }, data);
+  return await TypeModel.findOneAndUpdate({ _id }, data, { new: true });
 };
 
 const remove = async (_id: TypeProps['_id']) => {
