@@ -28,7 +28,7 @@ const update = async (_id: CurrencyProps['_id'], data: CurrencyProps) => {
 };
 
 const remove = async (_id: CurrencyProps['_id']) => {
-  return await CurrencyModel.deleteOne({ _id });
+  return await CurrencyModel.findByIdAndDelete({ _id });
 };
 
 export { create, getAll, get, update, remove };

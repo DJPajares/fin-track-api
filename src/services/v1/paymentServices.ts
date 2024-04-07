@@ -69,7 +69,7 @@ const update = async (_id: PaymentProps['_id'], data: PaymentProps) => {
 };
 
 const remove = async (_id: PaymentProps['_id']) => {
-  return await PaymentModel.deleteOne({ _id });
+  return await PaymentModel.findByIdAndDelete({ _id });
 };
 
 export { create, getAll, get, update, remove };

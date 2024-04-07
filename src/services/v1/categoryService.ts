@@ -31,7 +31,7 @@ const update = async (_id: CategoryProps['_id'], data: CategoryProps) => {
 };
 
 const remove = async (_id: CategoryProps['_id']) => {
-  return await CategoryModel.deleteOne({ _id });
+  return await CategoryModel.findByIdAndDelete({ _id });
 };
 
 export { create, getAll, get, update, remove };

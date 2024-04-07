@@ -35,7 +35,7 @@ const update = async (_id: TransactionProps['_id'], data: TransactionProps) => {
 };
 
 const remove = async (_id: TransactionProps['_id']) => {
-  return await TransactionModel.deleteOne({ _id });
+  return await TransactionModel.findByIdAndDelete({ _id });
 };
 
 export { create, getAll, get, update, remove };

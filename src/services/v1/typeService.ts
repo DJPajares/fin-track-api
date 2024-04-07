@@ -29,8 +29,7 @@ const update = async (_id: TypeProps['_id'], data: TypeProps) => {
 };
 
 const remove = async (_id: TypeProps['_id']) => {
-  return await TypeModel.deleteOne({ _id });
-  // return await TypeModel.findByIdAndDelete(id);
+  return await TypeModel.findByIdAndDelete({ _id });
 };
 
 export { create, getAll, get, update, remove };
