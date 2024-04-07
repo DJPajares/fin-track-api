@@ -5,7 +5,7 @@ import {
   get,
   update,
   remove
-} from '../../controllers/v1/logController';
+} from '../../controllers/v1/paymentController';
 
 const router = express.Router();
 
