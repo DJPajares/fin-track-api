@@ -6,14 +6,18 @@ const fetchTransactionPayments = async (
   res: Response,
   next: NextFunction
 ) => {
-  const date = req.body.date;
+  try {
+    const date = req.body.date;
 
-  const data = await transactionPaymentService.fetchTransactionPayments(date);
+    const data = await transactionPaymentService.fetchTransactionPayments(date);
 
-  res.status(200).json({
-    success: true,
-    data
-  });
+    res.status(200).json({
+      success: true,
+      data
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 export { fetchTransactionPayments };
