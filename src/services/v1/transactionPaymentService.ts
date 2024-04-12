@@ -1,4 +1,5 @@
 import { CategoryModel } from '../../models/v1/categoryModel';
+import { CurrencyModel } from '../../models/v1/currencyModel';
 import { PaymentModel } from '../../models/v1/paymentModel';
 import { TransactionModel } from '../../models/v1/transactionModel';
 import { TypeModel } from '../../models/v1/typeModel';
@@ -50,38 +51,45 @@ const fetchTransactionPayments = async (dateString: Date) => {
         from: TypeModel.collection.name,
         localField: 'category.type',
         foreignField: '_id',
-        as: 'categoryType'
+        as: 'type'
       }
+    },
+    {
+      $unwind: '$type'
+    },
+    {
+      $lookup: {
+        from: CurrencyModel.collection.name,
+        localField: 'currency',
+        foreignField: '_id',
+        as: 'currency'
+      }
+    },
+    {
+      $unwind: '$currency'
     },
     {
       // Filter transactions where the category type is 'Expense'
       $match: {
-        'categoryType.name': 'Expense'
+        'type.name': 'Expense'
       }
     },
     {
-      $group: {
-        _id: '$category._id', // group key
-        name: { $first: '$category.name' },
-        totalAmount: { $sum: '$amount' },
-        totalPaidAmount: { $sum: { $sum: '$payment.amount' } },
-        paymentCompletionRate: {
-          $avg: {
-            $divide: [
-              { $sum: { $sum: '$payment.amount' } },
-              { $sum: '$amount' }
-            ]
-          }
-        },
-        // Calculate the payment completion rate for each category
-        transactions: {
-          $push: {
-            _id: '$_id',
-            name: '$name',
-            amount: '$amount',
-            paidAmount: { $sum: '$payment.amount' }
-          }
-        }
+      $project: {
+        _id: 1,
+        name: 1,
+        categoryId: '$category._id',
+        categoryName: '$category.name',
+        typeId: '$type._id',
+        typeName: '$type.name',
+        amount: 1,
+        currencyId: '$currency._id',
+        currencyName: '$currency.name',
+        description: 1,
+        recurring: 1,
+        startDate: 1,
+        endDate: 1,
+        excludedDates: 1
       }
     }
   ]);
@@ -114,44 +122,49 @@ const fetchTransactionPayments = async (dateString: Date) => {
         from: TypeModel.collection.name,
         localField: 'category.type',
         foreignField: '_id',
-        as: 'categoryType'
+        as: 'type'
       }
+    },
+    {
+      // Unwind the array created by populate to get the category object
+      $unwind: '$type'
+    },
+    {
+      // Perform a left outer join with the TypeModel collection based on the 'type' field of the category
+      $lookup: {
+        from: CurrencyModel.collection.name,
+        localField: 'currency',
+        foreignField: '_id',
+        as: 'currency'
+      }
+    },
+    {
+      // Unwind the array created by populate to get the category object
+      $unwind: '$currency'
     },
     {
       // Filter transactions where the category type is 'Expense'
       $match: {
-        'categoryType.name': 'Income'
+        'type.name': 'Income'
       }
     },
     {
-      $group: {
-        _id: '$category._id', // group key
-        name: { $first: '$category.name' },
-        totalAmount: { $sum: '$amount' },
-        // Calculate the payment completion rate for each category
-        transactions: {
-          $push: {
-            _id: '$_id',
-            name: '$name',
-            amount: '$amount'
-          }
-        }
+      $project: {
+        _id: 1,
+        name: 1,
+        categoryId: '$category._id',
+        categoryName: '$category.name',
+        typeId: '$type._id',
+        typeName: '$type.name',
+        amount: 1,
+        currencyId: '$currency._id',
+        currencyName: '$currency.name',
+        description: 1,
+        recurring: 1,
+        startDate: 1,
+        endDate: 1,
+        excludedDates: 1
       }
-    },
-    {
-      $group: {
-        _id: null,
-        categories: { $push: '$$ROOT' },
-        totalAmount: { $sum: '$totalAmount' }
-      }
-    },
-    {
-      $addFields: {
-        totalBudget: '$totalAmount'
-      }
-    },
-    {
-      $project: { categories: 1, totalBudget: 1, _id: 0 } // Exclude _id field
     }
   ]);
 
