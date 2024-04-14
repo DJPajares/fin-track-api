@@ -46,6 +46,17 @@ const fetchTransactionPayments = async (dateString: Date) => {
       $unwind: '$category'
     },
     {
+      $lookup: {
+        from: CurrencyModel.collection.name,
+        localField: 'currency',
+        foreignField: '_id',
+        as: 'currency'
+      }
+    },
+    {
+      $unwind: '$currency'
+    },
+    {
       // Perform a left outer join with the TypeModel collection based on the 'type' field of the category
       $lookup: {
         from: TypeModel.collection.name,
@@ -56,17 +67,6 @@ const fetchTransactionPayments = async (dateString: Date) => {
     },
     {
       $unwind: '$type'
-    },
-    {
-      $lookup: {
-        from: CurrencyModel.collection.name,
-        localField: 'currency',
-        foreignField: '_id',
-        as: 'currency'
-      }
-    },
-    {
-      $unwind: '$currency'
     },
     {
       // Filter transactions where the category type is 'Expense'
@@ -83,6 +83,7 @@ const fetchTransactionPayments = async (dateString: Date) => {
         typeId: '$type._id',
         typeName: '$type.name',
         amount: 1,
+        paidAmount: { $sum: '$payment.amount' },
         currencyId: '$currency._id',
         currencyName: '$currency.name',
         description: 1,
@@ -169,7 +170,7 @@ const fetchTransactionPayments = async (dateString: Date) => {
   ]);
 
   // output
-  return expenseTransactionPayments;
+  return incomeTransactions;
 };
 
 export { fetchTransactionPayments };
