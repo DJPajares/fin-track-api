@@ -60,25 +60,25 @@ const fetchTransactionPayments = async (dateString: Date) => {
       $match: {
         'type.name': 'Income'
       }
-    },
-    {
-      $project: {
-        _id: 1,
-        name: 1,
-        categoryId: '$category._id',
-        categoryName: '$category.name',
-        typeId: '$type._id',
-        typeName: '$type.name',
-        amount: 1,
-        currencyId: '$currency._id',
-        currencyName: '$currency.name',
-        description: 1,
-        recurring: 1,
-        startDate: 1,
-        endDate: 1,
-        excludedDates: 1
-      }
     }
+    // {
+    //   $project: {
+    //     _id: 1,
+    //     name: 1,
+    //     categoryId: '$category._id',
+    //     categoryName: '$category.name',
+    //     typeId: '$type._id',
+    //     typeName: '$type.name',
+    //     amount: 1,
+    //     currencyId: '$currency._id',
+    //     currencyName: '$currency.name',
+    //     description: 1,
+    //     recurring: 1,
+    //     startDate: 1,
+    //     endDate: 1,
+    //     excludedDates: 1
+    //   }
+    // }
   ]);
 
   const expenseTransactionPayments = await TransactionModel.aggregate([
@@ -149,24 +149,29 @@ const fetchTransactionPayments = async (dateString: Date) => {
       }
     },
     {
-      $project: {
-        _id: 1,
-        name: 1,
-        categoryId: '$category._id',
-        categoryName: '$category.name',
-        typeId: '$type._id',
-        typeName: '$type.name',
-        amount: 1,
-        paidAmount: { $sum: '$payment.amount' },
-        currencyId: '$currency._id',
-        currencyName: '$currency.name',
-        description: 1,
-        recurring: 1,
-        startDate: 1,
-        endDate: 1,
-        excludedDates: 1
+      $addFields: {
+        paidAmount: { $sum: '$payment.amount' }
       }
     }
+    // {
+    //   $project: {
+    //     _id: 1,
+    //     name: 1,
+    //     categoryId: '$category._id',
+    //     categoryName: '$category.name',
+    //     typeId: '$type._id',
+    //     typeName: '$type.name',
+    //     amount: 1,
+    //     paidAmount: { $sum: '$payment.amount' },
+    //     currencyId: '$currency._id',
+    //     currencyName: '$currency.name',
+    //     description: 1,
+    //     recurring: 1,
+    //     startDate: 1,
+    //     endDate: 1,
+    //     excludedDates: 1
+    //   }
+    // }
   ]);
 
   const cleanUpData = () => {
@@ -200,12 +205,12 @@ const fetchTransactionPayments = async (dateString: Date) => {
     const categories = Object.values(
       expenseTransactionPayments.reduce(
         (accumulator, expenseTransactionPayment) => {
-          const key = expenseTransactionPayment.categoryId;
+          const key = expenseTransactionPayment.category._id;
 
           if (!accumulator[key]) {
             accumulator[key] = {
-              _id: expenseTransactionPayment.categoryId,
-              name: expenseTransactionPayment.categoryName,
+              _id: expenseTransactionPayment.category._id,
+              name: expenseTransactionPayment.category.name,
               totalAmount: 0,
               totalPaidAmount: 0,
               transactions: []
