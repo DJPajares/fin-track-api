@@ -7,6 +7,7 @@ const paymentSchema = new Schema(
       ref: 'Transaction',
       required: true
     },
+    currency: { type: Schema.Types.ObjectId, ref: 'Currency' },
     amount: { type: Schema.Types.Decimal128, default: 0 },
     date: Date,
     settled: Boolean,
