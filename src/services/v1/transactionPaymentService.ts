@@ -1,10 +1,12 @@
 import { CategoryModel } from '../../models/v1/categoryModel';
 import { CurrencyModel } from '../../models/v1/currencyModel';
+import { ExchangeRateModel } from '../../models/v1/exchangeRateModel';
 import { PaymentModel } from '../../models/v1/paymentModel';
 import { TransactionModel } from '../../models/v1/transactionModel';
 import { TypeModel } from '../../models/v1/typeModel';
+import convertCurrency from '../../utilities/convertCurrency';
 
-const fetchTransactionPayments = async (dateString: Date) => {
+const fetchTransactionPayments = async (dateString: Date, currency: string) => {
   const date = new Date(dateString);
 
   const incomeTransactions = await TransactionModel.aggregate([
@@ -150,7 +152,8 @@ const fetchTransactionPayments = async (dateString: Date) => {
     },
     {
       $addFields: {
-        paidAmount: { $sum: '$payment.amount' }
+        paidAmount: { $sum: '$payment.amount' },
+        paidCurrency: '$payment.currency'
       }
     }
     // {
@@ -174,24 +177,35 @@ const fetchTransactionPayments = async (dateString: Date) => {
     // }
   ]);
 
-  const cleanUpData = () => {
+  const latestExchangeRates = await ExchangeRateModel.findOne().sort({
+    date: -1
+  });
+
+  const processTransactionPaymentData = () => {
     const budget = incomeTransactions.reduce(
       (accumulator, incomeTransaction) =>
         accumulator + parseFloat(incomeTransaction.amount),
       0
     );
 
-    const totalAmount = expenseTransactionPayments.reduce(
-      (acculumator, expenseTransactionPayment) =>
-        acculumator + parseFloat(expenseTransactionPayment.amount),
-      0
-    );
+    // const totalAmount = expenseTransactionPayments.reduce(
+    //   (acculumator, expenseTransactionPayment) =>
+    //     acculumator + parseFloat(expenseTransactionPayment.amount),
+    //   0
+    // );
 
-    const totalPaidAmount = expenseTransactionPayments.reduce(
-      (accumulator, expenseTransactionPayment) =>
-        accumulator + parseFloat(expenseTransactionPayment.paidAmount),
-      0
-    );
+    // const totalPaidAmount = expenseTransactionPayments.reduce(
+    //   (accumulator, expenseTransactionPayment) =>
+    //     accumulator + parseFloat(expenseTransactionPayment.paidAmount),
+    //   0
+    // );
+
+    let totalAmount = 0;
+    let totalPaidAmount = 0;
+    expenseTransactionPayments.forEach((expenseTransactionPayment) => {
+      totalAmount += expenseTransactionPayment.amount;
+      totalPaidAmount += expenseTransactionPayment.paidAmount;
+    });
 
     const main = {
       budget,
@@ -211,17 +225,43 @@ const fetchTransactionPayments = async (dateString: Date) => {
             accumulator[key] = {
               _id: expenseTransactionPayment.category._id,
               name: expenseTransactionPayment.category.name,
+              currency,
               totalAmount: 0,
               totalPaidAmount: 0,
+              paymentCompletionRate: 0,
               transactions: []
             };
+          }
+
+          const amountCurrency = expenseTransactionPayment.currency;
+          const paidCurrency = expenseTransactionPayment.paidCurrency;
+
+          let amount = parseFloat(expenseTransactionPayment.amount);
+          if (currency !== amountCurrency) {
+            amount = convertCurrency(
+              amount,
+              amountCurrency,
+              currency,
+              latestExchangeRates?.rates
+            );
+          }
+
+          let paidAmount = parseFloat(expenseTransactionPayment.paidAmount);
+          if (currency !== paidCurrency) {
+            paidAmount = convertCurrency(
+              paidAmount,
+              paidCurrency,
+              currency,
+              latestExchangeRates?.rates
+            );
           }
 
           const transaction = {
             _id: expenseTransactionPayment._id,
             name: expenseTransactionPayment.name,
-            amount: parseFloat(expenseTransactionPayment.amount),
-            paidAmount: parseFloat(expenseTransactionPayment.paidAmount)
+            currency,
+            amount,
+            paidAmount
           };
 
           accumulator[key].transactions.push(transaction);
@@ -244,7 +284,7 @@ const fetchTransactionPayments = async (dateString: Date) => {
     return output;
   };
 
-  var data = cleanUpData();
+  var data = processTransactionPaymentData();
 
   return data;
 };
