@@ -63,24 +63,6 @@ const fetchTransactionPayments = async (dateString: Date, currency: string) => {
         'type.name': 'Income'
       }
     }
-    // {
-    //   $project: {
-    //     _id: 1,
-    //     name: 1,
-    //     categoryId: '$category._id',
-    //     categoryName: '$category.name',
-    //     typeId: '$type._id',
-    //     typeName: '$type.name',
-    //     amount: 1,
-    //     currencyId: '$currency._id',
-    //     currencyName: '$currency.name',
-    //     description: 1,
-    //     recurring: 1,
-    //     startDate: 1,
-    //     endDate: 1,
-    //     excludedDates: 1
-    //   }
-    // }
   ]);
 
   const expenseTransactionPayments = await TransactionModel.aggregate([
@@ -156,30 +138,12 @@ const fetchTransactionPayments = async (dateString: Date, currency: string) => {
         paidCurrency: '$payment.currency'
       }
     }
-    // {
-    //   $project: {
-    //     _id: 1,
-    //     name: 1,
-    //     categoryId: '$category._id',
-    //     categoryName: '$category.name',
-    //     typeId: '$type._id',
-    //     typeName: '$type.name',
-    //     amount: 1,
-    //     paidAmount: { $sum: '$payment.amount' },
-    //     currencyId: '$currency._id',
-    //     currencyName: '$currency.name',
-    //     description: 1,
-    //     recurring: 1,
-    //     startDate: 1,
-    //     endDate: 1,
-    //     excludedDates: 1
-    //   }
-    // }
   ]);
 
   const latestExchangeRates = await ExchangeRateModel.findOne().sort({
     date: -1
   });
+  const rates = latestExchangeRates?.rates || {};
 
   const processTransactionPaymentData = () => {
     const budget = incomeTransactions.reduce(
@@ -238,12 +202,7 @@ const fetchTransactionPayments = async (dateString: Date, currency: string) => {
 
           let amount = parseFloat(expenseTransactionPayment.amount);
           if (currency !== amountCurrency) {
-            amount = convertCurrency(
-              amount,
-              amountCurrency,
-              currency,
-              latestExchangeRates?.rates
-            );
+            amount = convertCurrency(amount, amountCurrency, currency, rates);
           }
 
           let paidAmount = parseFloat(expenseTransactionPayment.paidAmount);
@@ -252,7 +211,7 @@ const fetchTransactionPayments = async (dateString: Date, currency: string) => {
               paidAmount,
               paidCurrency,
               currency,
-              latestExchangeRates?.rates
+              rates
             );
           }
 
