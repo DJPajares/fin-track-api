@@ -13,6 +13,6 @@ router.use('/api/v1/categories', categoryRoute);
 router.use('/api/v1/currencies', currencyRoute);
 router.use('/api/v1/payments', paymentRoute);
 router.use('/api/v1/transactions', transactionRoute);
-router.use('/api/v1/transactionPayment', transactionPaymentRoute);
+router.use('/api/v1/transactionPayments', transactionPaymentRoute);
 
 export default router;

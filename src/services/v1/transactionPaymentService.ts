@@ -178,6 +178,7 @@ const fetchTransactionPayments = async (data: TransactionPaymentProps) => {
     });
 
     const main = {
+      currency,
       budget,
       totalAmount,
       totalPaidAmount,
