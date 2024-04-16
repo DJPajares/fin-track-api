@@ -6,8 +6,14 @@ import { TransactionModel } from '../../models/v1/transactionModel';
 import { TypeModel } from '../../models/v1/typeModel';
 import convertCurrency from '../../utilities/convertCurrency';
 
-const fetchTransactionPayments = async (dateString: Date, currency: string) => {
-  const date = new Date(dateString);
+type TransactionPaymentProps = {
+  date: Date;
+  currency: string;
+};
+
+const fetchTransactionPayments = async (data: TransactionPaymentProps) => {
+  const date = new Date(data.date);
+  const currency = data.currency;
 
   const incomeTransactions = await TransactionModel.aggregate([
     {
@@ -243,9 +249,7 @@ const fetchTransactionPayments = async (dateString: Date, currency: string) => {
     return output;
   };
 
-  var data = processTransactionPaymentData();
-
-  return data;
+  return processTransactionPaymentData();
 };
 
 export { fetchTransactionPayments };

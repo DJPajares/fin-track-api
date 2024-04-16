@@ -7,11 +7,8 @@ const fetchTransactionPayments = async (
   next: NextFunction
 ) => {
   try {
-    const { date, currency } = req.body;
-
     const data = await transactionPaymentService.fetchTransactionPayments(
-      date,
-      currency
+      req.body
     );
 
     res.status(200).json({
