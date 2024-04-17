@@ -11,8 +11,7 @@ const exchangeRateSchema = new Schema(
       required: true
     },
     rates: {
-      type: Map,
-      of: Number,
+      type: Object,
       required: true
     }
   },
