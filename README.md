@@ -19,7 +19,7 @@ a restful api app to showcase designing skills using express and mongoose.
   - handling versioning
   - naming convention
   - pagination, filtering and sorting
-- bonus:
+- bonuses:
   - project-specific vscode settings
 
 ## Requirements
@@ -68,6 +68,9 @@ a restful api app to showcase designing skills using express and mongoose.
 ```
 
 - run api on postman
+
+## Tools
+- [postman](https://www.postman.com/wonderboi/workspace/wspace/collection/19827537-9634f52d-3119-432c-8765-ff2ac206f066?action=share&creator=19827537)
 
 ## API Reference
 
